@@ -1,52 +1,47 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Scene } from "./Scene";
-import skOutline from "../assets/scenes/02-sk-outline.svg?raw";
+import skOutlineRaw from "../assets/scenes/02-sk-outline.svg?raw";
+import { fitSvg } from "../utils/svg";
+import { setupPathDrawing } from "../utils/drawOnScroll";
+
+const skOutline = fitSvg(skOutlineRaw);
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function SceneMap() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+    const paths = Array.from(el.querySelectorAll<SVGPathElement>("path[data-draw]"));
+    if (paths.length === 0) return;
 
-    let ctx: gsap.Context | null = null;
-    let rafId = 0;
+    const lengths = setupPathDrawing(paths);
 
-    rafId = requestAnimationFrame(() => {
-      const paths = Array.from(el.querySelectorAll<SVGPathElement>("path[data-draw]"));
-      if (paths.length === 0) return;
-
-      paths.forEach((p) => {
-        const len = p.getTotalLength();
-        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          end: "top 20%",
+          scrub: 0.5,
+        },
       });
+      paths.forEach((p, i) => {
+        tl.fromTo(
+          p,
+          { strokeDashoffset: lengths[i] },
+          { strokeDashoffset: 0, ease: "none", duration: 1 },
+          i * 0.15,
+        );
+      });
+    }, el);
+    ScrollTrigger.refresh();
 
-      ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            end: "top 20%",
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-        paths.forEach((p, i) => {
-          tl.to(p, { strokeDashoffset: 0, ease: "none", duration: 1 }, i * 0.15);
-        });
-      }, el);
-
-      ScrollTrigger.refresh();
-    });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      ctx?.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (

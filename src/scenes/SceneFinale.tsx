@@ -1,7 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import finaleSvg from "../assets/scenes/04-finale.svg?raw";
+import finaleSvgRaw from "../assets/scenes/04-finale.svg?raw";
+import { fitSvg } from "../utils/svg";
+import { setupPathDrawing } from "../utils/drawOnScroll";
+
+const finaleSvg = fitSvg(finaleSvgRaw);
 import finalePhoto from "../assets/photos/finale.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,56 +16,42 @@ export function SceneFinale() {
   const lineLayerRef = useRef<HTMLDivElement | null>(null);
   const photoLayerRef = useRef<HTMLImageElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const section = sectionRef.current;
     const stage = stageRef.current;
     const lineEl = lineLayerRef.current;
     const photoEl = photoLayerRef.current;
     if (!section || !stage || !lineEl || !photoEl) return;
 
-    let ctx: gsap.Context | null = null;
-    const rafId = requestAnimationFrame(() => {
-      const paths = Array.from(lineEl.querySelectorAll<SVGPathElement>("path[data-draw]"));
-      paths.forEach((p) => {
-        const len = p.getTotalLength();
-        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    const paths = Array.from(lineEl.querySelectorAll<SVGPathElement>("path[data-draw]"));
+    const lengths = setupPathDrawing(paths);
+    gsap.set(photoEl, { opacity: 0 });
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=120%",
+          scrub: 0.5,
+          pin: true,
+          pinSpacing: true,
+        },
       });
-      gsap.set(photoEl, { opacity: 0 });
+      paths.forEach((p, i) => {
+        tl.fromTo(
+          p,
+          { strokeDashoffset: lengths[i] },
+          { strokeDashoffset: 0, ease: "none", duration: 0.4 },
+          (i / paths.length) * 0.6,
+        );
+      });
+      tl.to(lineEl, { opacity: 0, duration: 0.25, ease: "power2.inOut" }, 0.65);
+      tl.to(photoEl, { opacity: 1, duration: 0.25, ease: "power2.inOut" }, 0.65);
+    }, section);
+    ScrollTrigger.refresh();
 
-      ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "+=120%",
-            scrub: 0.8,
-            pin: true,
-            pinSpacing: true,
-            invalidateOnRefresh: true,
-          },
-        });
-        // Phase 1: draw line art (0 → 0.6)
-        paths.forEach((p, i) => {
-          tl.to(
-            p,
-            { strokeDashoffset: 0, ease: "none", duration: 0.4 },
-            (i / paths.length) * 0.6
-          );
-        });
-        // Phase 2: cross-fade (0.65 → 0.9)
-        tl.to(lineEl, { opacity: 0, duration: 0.25, ease: "power2.inOut" }, 0.65);
-        tl.to(photoEl, { opacity: 1, duration: 0.25, ease: "power2.inOut" }, 0.65);
-        // Phase 3: hold photo (0.9 → 1.0)
-        tl.to({}, { duration: 0.1 });
-      }, section);
-
-      ScrollTrigger.refresh();
-    });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      ctx?.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (

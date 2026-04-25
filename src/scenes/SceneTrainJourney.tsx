@@ -1,25 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Scene } from "./Scene";
-import trainSvg from "../assets/scenes/03-train.svg?raw";
+import trainSvgRaw from "../assets/scenes/03-train.svg?raw";
+import { fitSvg } from "../utils/svg";
+import { setupPathDrawing } from "../utils/drawOnScroll";
+
+const trainSvg = fitSvg(trainSvgRaw);
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function SceneTrainJourney() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const paths = Array.from(el.querySelectorAll<SVGPathElement>("path[data-draw]"));
     if (paths.length === 0) return;
 
-    paths.forEach((p) => {
-      const len = p.getTotalLength();
-      p.style.strokeDasharray = `${len}`;
-      p.style.strokeDashoffset = `${len}`;
-    });
+    const lengths = setupPathDrawing(paths);
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -27,13 +27,19 @@ export function SceneTrainJourney() {
           trigger: el,
           start: "top 85%",
           end: "top 20%",
-          scrub: 1,
+          scrub: 0.5,
         },
       });
       paths.forEach((p, i) => {
-        tl.to(p, { strokeDashoffset: 0, ease: "none" }, i * 0.05);
+        tl.fromTo(
+          p,
+          { strokeDashoffset: lengths[i] },
+          { strokeDashoffset: 0, ease: "none", duration: 1 },
+          i * 0.05,
+        );
       });
     }, el);
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);

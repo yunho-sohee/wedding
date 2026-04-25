@@ -38,6 +38,13 @@ const photos: string[] = [
   ...ungrouped,
 ];
 
+// Round-robin distribute items into N columns for stable masonry layout
+function distribute<T>(items: T[], n: number): T[][] {
+  const cols: T[][] = Array.from({ length: n }, () => []);
+  items.forEach((item, i) => cols[i % n].push(item));
+  return cols;
+}
+
 export function PhotoGallery() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [dims, setDims] = useState<Record<string, { w: number; h: number }>>({});
@@ -153,25 +160,56 @@ export function PhotoGallery() {
               )}
 
               {portraits.length > 0 && (
-                <div className="columns-2 sm:columns-3 gap-2 [&>*]:mb-2">
-                  {portraits.map((src) => (
-                    <button
-                      key={src}
-                      type="button"
-                      onClick={() => setOpenIndex(indexOf(src))}
-                      className="block w-full overflow-hidden rounded-md bg-[color:var(--color-border-soft)] active:opacity-80 transition-opacity break-inside-avoid"
-                      aria-label={`사진 ${indexOf(src) + 1} 크게 보기`}
-                    >
-                      <img
-                        src={src}
-                        alt=""
-                        loading="lazy"
-                        className="w-full h-auto block"
-                        style={{ pointerEvents: "none" }}
-                      />
-                    </button>
-                  ))}
-                </div>
+                <>
+                  {/* mobile: 2 columns flex distribution */}
+                  <div className="flex gap-2 sm:hidden">
+                    {distribute(portraits, 2).map((col, ci) => (
+                      <div key={ci} className="flex-1 min-w-0 space-y-2">
+                        {col.map((src) => (
+                          <button
+                            key={src}
+                            type="button"
+                            onClick={() => setOpenIndex(indexOf(src))}
+                            className="block w-full overflow-hidden rounded-md bg-[color:var(--color-border-soft)] active:opacity-80 transition-opacity"
+                            aria-label={`사진 ${indexOf(src) + 1} 크게 보기`}
+                          >
+                            <img
+                              src={src}
+                              alt=""
+                              loading="lazy"
+                              className="w-full h-auto block"
+                              style={{ pointerEvents: "none" }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                  {/* desktop+: 3 columns flex distribution */}
+                  <div className="hidden sm:flex gap-2">
+                    {distribute(portraits, 3).map((col, ci) => (
+                      <div key={ci} className="flex-1 min-w-0 space-y-2">
+                        {col.map((src) => (
+                          <button
+                            key={src}
+                            type="button"
+                            onClick={() => setOpenIndex(indexOf(src))}
+                            className="block w-full overflow-hidden rounded-md bg-[color:var(--color-border-soft)] active:opacity-80 transition-opacity"
+                            aria-label={`사진 ${indexOf(src) + 1} 크게 보기`}
+                          >
+                            <img
+                              src={src}
+                              alt=""
+                              loading="lazy"
+                              className="w-full h-auto block"
+                              style={{ pointerEvents: "none" }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           );
