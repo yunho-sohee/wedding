@@ -30,7 +30,7 @@ export function SceneMap() {
           scrollTrigger: {
             trigger: el,
             start: "top 85%",
-            end: "center 55%",
+            end: "top 20%",
             scrub: 1,
             invalidateOnRefresh: true,
           },
@@ -52,8 +52,8 @@ export function SceneMap() {
   return (
     <Scene
       caption="Chapter 02"
-      title="서울 · 부산"
-      body={"서로 다른 도시에서 지내며,\n매일 영상통화로 안부를 나눴다."}
+      title="서울과 부산"
+      body={"멀리 떨어져 있었지만\n매일의 안부로 마음의 거리를 좁혀갔습니다."}
     >
       <div ref={containerRef} className="relative w-full h-full">
         <div

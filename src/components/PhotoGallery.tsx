@@ -10,7 +10,7 @@ type GroupKey = "A" | "B" | "C" | "D";
 
 const GROUP_META: Record<GroupKey, { index: string; label: string; ko: string }> = {
   A: { index: "01", label: "Canola", ko: "유채꽃 들판" },
-  B: { index: "02", label: "Field", ko: "초록 들판" },
+  B: { index: "02", label: "Green Field", ko: "초록 들판" },
   C: { index: "03", label: "Forest", ko: "숲길" },
   D: { index: "04", label: "Night Sea", ko: "밤바다" },
 };
@@ -82,7 +82,7 @@ export function PhotoGallery() {
     return (
       <section className="py-24 px-6 text-center">
         <p className="text-xs tracking-[0.3em] uppercase text-[color:var(--color-muted)] mb-4">
-          Our Days
+          Our Jeju record
         </p>
         <p className="text-sm text-[color:var(--color-muted)] max-w-xs mx-auto">
           사진이 준비되면 이곳에 표시됩니다.
@@ -105,10 +105,10 @@ export function PhotoGallery() {
       <section className="py-24 px-6 max-w-4xl mx-auto">
         <div className="text-center mb-14">
           <p className="text-xs tracking-[0.3em] uppercase text-[color:var(--color-muted)] mb-3">
-            Our Days
+            Our Jeju record
           </p>
           <h2 className="text-3xl font-semibold tracking-tight text-[color:var(--color-charcoal)]">
-            제주에서의 기억
+            우리의 제주 기록
           </h2>
         </div>
 

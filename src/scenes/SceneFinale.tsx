@@ -93,7 +93,7 @@ export function SceneFinale() {
           우리, 결혼합니다
         </h2>
         <p className="text-base leading-relaxed text-[color:var(--color-muted)] whitespace-pre-line">
-          {"그렇게 서로의 평생이 되기로 했습니다."}
+          {"따로 자리를 마련해 모시지는 못하지만,\n저희의 시작을 이렇게 전합니다.\n멀리서도 따뜻한 마음으로 함께해 주시면\n큰 기쁨으로 간직하겠습니다."}
         </p>
       </div>
     </section>

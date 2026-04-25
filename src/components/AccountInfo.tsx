@@ -7,17 +7,16 @@ type Account = {
   number: string;
 };
 
-// TODO: 은행 · 계좌번호 실제 정보로 교체, 부모님 성함 추가
+// TODO: 양가 어머님 계좌번호 추가, 신부측 아버님 정보 추가
 const GROOM_ACCOUNTS: Account[] = [
-  { role: "신랑", name: "주윤호", bank: "국민은행", number: "000-0000-0000-00" },
-  { role: "아버지", name: "주○○", bank: "국민은행", number: "000-0000-0000-00" },
-  { role: "어머니", name: "○○○", bank: "국민은행", number: "000-0000-0000-00" },
+  { role: "신랑", name: "주윤호", bank: "우리은행", number: "825-071524-02-001" },
+  { role: "어머니", name: "○○○", bank: "○○은행", number: "000-0000-0000-00" },
 ];
 
 const BRIDE_ACCOUNTS: Account[] = [
-  { role: "신부", name: "성소희", bank: "신한은행", number: "000-000-000000" },
-  { role: "아버지", name: "성○○", bank: "신한은행", number: "000-000-000000" },
-  { role: "어머니", name: "○○○", bank: "신한은행", number: "000-000-000000" },
+  { role: "신부", name: "성소희", bank: "카카오뱅크", number: "3333-08-1146695" },
+  { role: "아버지", name: "성○○", bank: "○○은행", number: "000-000-000000" },
+  { role: "어머니", name: "○○○", bank: "○○은행", number: "000-000-000000" },
 ];
 
 export function AccountInfo() {
@@ -70,7 +69,7 @@ export function AccountInfo() {
         마음 전하실 곳
       </h2>
       <p className="text-sm leading-relaxed text-[color:var(--color-muted)] mb-3 whitespace-pre-line">
-        {"저희는 식을 따로 올리지 않습니다.\n멀리서 축하의 마음 보내주시려는 분들을 위해\n조심스레 계좌를 안내드립니다."}
+        {"축하의 마음을 전해주시려는 분들을 위해\n조심스레 마음 전하실 곳을 안내드립니다."}
       </p>
       <p className="text-sm leading-relaxed text-[color:var(--color-charcoal)] mb-10">
         보내주시는 따뜻한 마음만으로도 충분합니다.

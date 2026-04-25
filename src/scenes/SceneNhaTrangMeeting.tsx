@@ -26,7 +26,7 @@ export function SceneNhaTrangMeeting() {
         scrollTrigger: {
           trigger: el,
           start: "top 85%",
-          end: "center 55%",
+          end: "top 20%",
           scrub: 1,
         },
       });
@@ -41,8 +41,8 @@ export function SceneNhaTrangMeeting() {
   return (
     <Scene
       caption="Chapter 01"
-      title="여행"
-      body={"어느 여행지에서 처음 마주쳤다."}
+      title="인연의 시작"
+      body={"낯선 여행지에서 우연히 만난 우리는\n서로의 하루에 천천히 스며들었습니다."}
     >
       <div
         ref={containerRef}

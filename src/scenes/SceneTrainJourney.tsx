@@ -26,7 +26,7 @@ export function SceneTrainJourney() {
         scrollTrigger: {
           trigger: el,
           start: "top 85%",
-          end: "center 55%",
+          end: "top 20%",
           scrub: 1,
         },
       });
@@ -41,8 +41,8 @@ export function SceneTrainJourney() {
   return (
     <Scene
       caption="Chapter 03"
-      title="서울과 부산 사이"
-      body={"기차를 타고 만나,\n함께하는 시간을 즐겼다."}
+      title="장거리 커플"
+      body={"서로의 하루를 나누던 시간이 쌓여\n함께하고 싶은 마음은 더 분명해졌습니다."}
     >
       <div
         ref={containerRef}

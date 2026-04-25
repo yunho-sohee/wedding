@@ -42,7 +42,7 @@ export function SceneProposal() {
         scrollTrigger: {
           trigger: el,
           start: "top 85%",
-          end: "center 55%",
+          end: "top 20%",
           scrub: 1,
         },
       });
@@ -68,7 +68,7 @@ export function SceneProposal() {
     <Scene
       caption="Chapter 04"
       title="프로포즈"
-      body={"평생을 함께하자는 물음에,\n서로의 손을 마주 잡았다."}
+      body={"그렇게 쌓인 확신 끝에\n서로의 미래가 되어주기로 약속했습니다."}
     >
       <div
         ref={containerRef}
