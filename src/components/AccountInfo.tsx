@@ -7,15 +7,14 @@ type Account = {
   number: string;
 };
 
-// TODO: 양가 어머님 계좌번호 추가, 신부측 아버님 정보 추가
 const GROOM_ACCOUNTS: Account[] = [
   { role: "신랑", name: "주윤호", bank: "우리은행", number: "825-071524-02-001" },
-  { role: "어머니", name: "○○○", bank: "○○은행", number: "000-0000-0000-00" },
 ];
 
 const BRIDE_ACCOUNTS: Account[] = [
   { role: "신부", name: "성소희", bank: "카카오뱅크", number: "3333-08-1146695" },
   { role: "아버지", name: "성향근", bank: "부산은행", number: "112-20360327-00" },
+  { role: "어머니", name: "김해연", bank: "부산은행", number: "024-12-028719-0" },
 ];
 
 export function AccountInfo() {
