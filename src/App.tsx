@@ -10,6 +10,7 @@ import {
   BackgroundMusic,
   type BackgroundMusicHandle,
 } from "./components/BackgroundMusic";
+import { ScrollHint } from "./components/ScrollHint";
 
 function App() {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
@@ -22,6 +23,7 @@ function App() {
         isPlaying={isMusicPlaying}
         onPlayingChange={setIsMusicPlaying}
       />
+      <ScrollHint isMusicPlaying={isMusicPlaying} />
 
       {/* Hero */}
       <section className="min-h-[100svh] flex flex-col items-center justify-center px-6 text-center">
