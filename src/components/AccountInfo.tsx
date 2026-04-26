@@ -15,8 +15,7 @@ const GROOM_ACCOUNTS: Account[] = [
 
 const BRIDE_ACCOUNTS: Account[] = [
   { role: "신부", name: "성소희", bank: "카카오뱅크", number: "3333-08-1146695" },
-  { role: "아버지", name: "성○○", bank: "○○은행", number: "000-000-000000" },
-  { role: "어머니", name: "○○○", bank: "○○은행", number: "000-000-000000" },
+  { role: "아버지", name: "성향근", bank: "부산은행", number: "112-20360327-00" },
 ];
 
 export function AccountInfo() {
